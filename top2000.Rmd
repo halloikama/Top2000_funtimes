@@ -1,0 +1,62 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+
+
+```{r}
+data <- read.csv('file:///C:/Users/hallo/Downloads/top2000.csv', sep = ';')
+data <- as.data.frame(data)
+data[is.na(data)] <- 0
+data$X1999 <- as.factor(data$X1999)
+data
+```
+
+```{r}
+years <- c('X2000','X2001')
+years <- list(years); years
+```
+```{r}
+
+d1999 <- data[1,5] == 1
+d2000 <- data[1,6] == 1
+
+sum(d1999 == d2000)
+
+```
+
+```{r}
+uniquenos <- c()
+
+for (i in 1:2000) {
+  titles <- c()
+  for (k in 5:24) {
+    if(!(data$titel[data[,k]==i] %in% titles)){
+      titles <- c(titles, data$titel[data[,k]==i])
+    } 
+  }
+  uniquenos <- c(uniquenos ,length(unique(titles)))
+}
+
+
+
+```
+
+```{r}
+mat <- matrix(uniquenos, ncol = 1)
+ind <- 1:2000
+
+mat <- cbind(mat, ind)
+plot(ind, mat[,1], log = "x",  type = "p", col ="red", main = "Aantal nummers per positie in top2000", xlab = "Plaats in top200", ylab = "Aantal verschillende nummers", lwd = 2)
+
+```
+
+
+
+```{r}
+titles <- c()
+lapply(data, function(x) for(i in 5:25){
+  !(data$titel[data[,i]==1] %in% titles)
+  })
+```
